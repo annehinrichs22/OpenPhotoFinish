@@ -4,3 +4,11 @@ opencv-python
 Pillow
 openpyxl
 PySide6
+sounddevice
+moviepy
+proglog
+soundfile
+pandas
+pyautogui
+pyperclip
+matplotlib

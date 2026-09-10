@@ -16,55 +16,56 @@ If the former (sound is transmitted through open air), user must adjust for the 
 ALL ABOUT THE APP: openphotofinish.blogspot.com  &  github.com/artmyb/openphotofinish
 """
 print("Loading az bekle...")
-import tkinter
-import os
+from sys import platform
 import traceback
 
 import tkinter as tk
 import threading
 from PIL import ImageTk, Image
 import numpy as np
+import platform
+print(f"Platform: {platform.system()}")
 
 import base64
 from io import BytesIO
 
 # Import the encoded image data
-from splash_image import image_data
-from generate_image_button import image_data as generate_image_bt
-from update_image_button import image_data as update_image_bt
-from preview_button import image_data as preview_bt
-from apply_button import image_data as apply_bt
+from assets.splash_image import image_data
+from assets.generate_image_button import image_data as generate_image_bt
+from assets.update_image_button import image_data as update_image_bt
+from assets.preview_button import image_data as preview_bt
+from assets.apply_button import image_data as apply_bt
 
-from import_video_button import image_data as import_video_bt
-from import_video_button_w import image_data as import_video_bt_w
-from export_button import image_data as export_bt
-from export_button_w import image_data as export_bt_w
-from add_button import image_data as add_bt
-from remove_button import image_data as remove_bt
-from add_button_w import image_data as add_bt_w
-from remove_button_w import image_data as remove_bt_w
-from import_button import image_data as import_bt
-from import_button_w import image_data as import_bt_w
-from main_icon import image_data as main_icon
-from add_instance_button import image_data as add_instance_bt
-from add_instance_button_w import image_data as add_instance_bt_w
-from video import image_data as video_bt
-from play import image_data as play_bt
-from pause import image_data as pause_bt
-from stop import image_data as stop_bt
-from play_w import image_data as play_bt_w
-from pause_w import image_data as pause_bt_w
-from stop_w import image_data as stop_bt_w
-from video_l import image_data as video_l_bt
-from video_l_w import image_data as video_l_bt_w
-from banner import image_data as banner_image
-from gunx3 import image_data as gunx3_bt
-from videox3 import image_data as videox3_bt
-from tablex3 import image_data as tablex3_bt
-from captures import image_data as captures_bt
-from laps import image_data as laps_bt
-from board import image_data as board_bt
-from abort import image_data as abort_bt
+from assets.import_video_button import image_data as import_video_bt
+from assets.import_video_button_w import image_data as import_video_bt_w
+from assets.export_button import image_data as export_bt
+from assets.export_button_w import image_data as export_bt_w
+from assets.add_button import image_data as add_bt
+from assets.remove_button import image_data as remove_bt
+from assets.add_button_w import image_data as add_bt_w
+from assets.remove_button_w import image_data as remove_bt_w
+from assets.import_button import image_data as import_bt
+from assets.import_button_w import image_data as import_bt_w
+from assets.main_icon import image_data as main_icon
+from assets.add_instance_button import image_data as add_instance_bt
+from assets.add_instance_button_w import image_data as add_instance_bt_w
+from assets.video import image_data as video_bt
+from assets.play import image_data as play_bt
+from assets.pause import image_data as pause_bt
+from assets.stop import image_data as stop_bt
+from assets.play_w import image_data as play_bt_w
+from assets.pause_w import image_data as pause_bt_w
+from assets.stop_w import image_data as stop_bt_w
+from assets.video_l import image_data as video_l_bt
+from assets.video_l_w import image_data as video_l_bt_w
+from assets.banner import image_data as banner_image
+from assets.gunx3 import image_data as gunx3_bt
+from assets.videox3 import image_data as videox3_bt
+from assets.tablex3 import image_data as tablex3_bt
+from assets.captures import image_data as captures_bt
+from assets.laps import image_data as laps_bt
+from assets.board import image_data as board_bt
+from assets.abort import image_data as abort_bt
 
 #the below part is for splash screen
 
@@ -111,7 +112,7 @@ from PIL import ImageDraw, ImageFont
 import numpy as np
 import sounddevice as sd
 from tkinter import ttk
-import tkinter.messagebox
+# import tkinter.messagebox
 import io
 from moviepy.editor import VideoFileClip
 import proglog
@@ -121,17 +122,17 @@ import soundfile as sf
 
 from tkinter.filedialog import asksaveasfile
 import pandas as pd
-import pyautogui
-import openpyxl
+# import pyautogui
+# import openpyxl
 from functools import partial
 import io
 import base64
-from datetime import datetime
+# from datetime import datetime
 import webbrowser
 import urllib.parse
 import pyperclip
 from tkinter import font
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 #from pydub import AudioSegment
 #import simpleaudio as sa
 
@@ -829,7 +830,18 @@ class Instance:
             self.root.option_add('*Foreground', '#FFFFFF')
             self.root.option_add('*Button.Background', '#222222')
             #self.root.overrideredirect(True)
-            self.root.state("zoomed")
+            # Windows and Linux fix:
+            if platform.system() == "Windows":
+                self.root.state("zoomed")
+            else:
+                try:
+                    self.root.attributes("-zoomed", True)  # Werkt op de meeste Linux X11 window managers
+                except Exception:
+                    # Fallback naar schermgrootte als -zoomed niet wordt ondersteund (bv. Wayland)
+                    w = self.root.winfo_screenwidth()
+                    h = self.root.winfo_screenheight()
+                    self.root.geometry(f"{w}x{h}+0+0")
+                    print("Fallback to full screen")
             self.root.resizable(True, True)
             self.out = None
             self.start_time = 0
