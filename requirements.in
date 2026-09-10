@@ -1,0 +1,6 @@
+# requirements.in
+numpy
+opencv-python
+Pillow
+openpyxl
+PySide6
