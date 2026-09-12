@@ -67,37 +67,6 @@ from assets.laps import image_data as laps_bt
 from assets.board import image_data as board_bt
 from assets.abort import image_data as abort_bt
 
-#the below part is for splash screen
-
-
-splash = tk.Tk()
-splash.resizable(False, False)
-
-splash.configure(bg='black')
-
-window_width = 700
-window_height = 250
-screen_width = splash.winfo_screenwidth()
-screen_height = splash.winfo_screenheight()
-x = (screen_width // 2) - (window_width // 2)
-y = (screen_height // 2) - (window_height // 2)
-splash.geometry(f'{window_width}x{window_height}+{x}+{y}')
-splash.attributes("-topmost", True)
-splash_canvas = tk.Canvas(splash, bg='black', width=window_width, height=window_height, highlightthickness=0)
-splash_canvas.pack(fill="both", expand=True)
-
-image_data_bytes = base64.b64decode(image_data)
-image = Image.open(BytesIO(image_data_bytes))
-splash_icon = ImageTk.PhotoImage(image)
-
-splash_canvas.create_image(0, 0, anchor=tk.NW, image=splash_icon)
-
-splash.overrideredirect(True)
-
-splash.after(5000, splash.destroy)
-
-splash.mainloop()
-
 action_log = open("action_log.txt","w")
 error_log = open("error_log.txt","w")
 
